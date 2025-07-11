@@ -78,13 +78,18 @@ Responsive React UI
 Django Admin dashboard for review, status updates, and filtering
 
 
-🧰 Tech Stack
-Frontend:	React, Vite
-Backend:	Django, Django REST Framework
-Auth:	Django Auth (optional JWT)
-Styling:	Tailwind CSS (or your custom setup)
-API Comm:	Axios
-Dev Tools:	CORS, Git, GitHub
+## 🧰 Tech Stack
+
+| Layer      | Tech                                 |
+|------------|--------------------------------------|
+| Frontend   | React, Vite                          |
+| Backend    | Django, Django REST Framework        |
+| Auth       | Django Auth (optional JWT)           |
+| Styling    | Tailwind CSS                         |
+| API Comm   | Axios                                |
+| Dev Tools  | CORS, Git, GitHub                    |
+| Deployment | Localhost / Optional: Render/Railway |
+
 
 👨‍💻 Maintainer
 Built by Gbure Thomas
