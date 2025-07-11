@@ -125,4 +125,4 @@ Django Admin dashboard for review, status updates, and filtering
 
 - Gbure Thomas ([Legacy-G](https://github.com/Legacy-G)) — Creator & Backend developer | django
 - Noibis Junior ([Noibisjunior](https://github.com/Noibisjunior)) — Creator & Backend developer | Node.js
-- LabstarMX ([LabstarMX]((https://github.com/LabstarMX)) — Creator & Frontend developer | ReactJs
+- LabstarMX ([LabstarMX](https://github.com/LabstarMX)) — Creator & Frontend developer | ReactJs
