@@ -1,3 +1,5 @@
+[![View Project](https://img.shields.io/badge/GitHub-View_Project-2ea44f)](https://github.com/Legacy-G/digital-suggestion-box-nihub)
+
 #  Digital Suggestion Box — NiHub
 
 A full-stack web application where users can submit suggestions anonymously or with attribution — perfect for feedback collection, idea proposals, and bug reports.
