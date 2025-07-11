@@ -12,6 +12,37 @@ Built with:
 
 ---
 
+## 📘 Project Overview
+
+The Digital Suggestion Box is a full-stack feedback collection system designed for NiHub. Users can submit ideas, bug reports, or performance suggestions anonymously or with their name attached. Submissions are processed by a Django REST API and managed via a secured admin dashboard. This tool streamlines feedback gathering, supports organizational growth, and promotes transparency between users and administrators.
+
+---
+
+## ⚙️ How It Works
+
+1. **Frontend (React + Vite)**  
+   Users interact with a responsive form hosted at `http://localhost:5173`. They can choose a category, enter a suggestion, and submit it anonymously or with a name.
+
+2. **Axios POST Request**  
+   Upon submission, the frontend sends a structured payload to the backend via Axios.
+
+3. **Backend (Django + DRF)**  
+   Django processes the request, saves it in the database, and applies permissions — allowing anyone to submit suggestions but restricting updates/deletion to admin users.
+
+4. **Django Admin Dashboard**  
+   Admins log in at `http://localhost:8000/admin/` to review, filter, and manage submitted suggestions.
+
+5. **Optional Authentication**  
+   JWT-based login endpoints (`/api/token/`) can be added to protect routes or introduce user tracking.
+
+6. **CORS Configuration**  
+   Seamless communication between `localhost:5173` and `localhost:8000` is enabled via `django-cors-headers`.
+
+7. **Data Review & Filtering**  
+   Suggestions are displayed with categories, timestamps, anonymity status, and optional user info — ideal for evaluating organizational feedback trends.
+
+---
+
 ##  Project Structure
 digital-suggestion-box-nihub/
 ├── backend/           # Django backend
@@ -33,33 +64,33 @@ digital-suggestion-box-nihub/
 
 ### 📦 Clone the Repo
 ``bash
-git clone https://github.com/Legacy-G/digital-suggestion-box-nihub.git
-cd digital-suggestion-box-nihub
+`git clone https://github.com/Legacy-G/digital-suggestion-box-nihub.git
+cd digital-suggestion-box-nihub`
 
-### 📦 Backend Setup
+##🌐 Backend Setup
 ``bash
-cd backend
+`cd backend
 python -m venv env
 source env/bin/activate  # or .\env\Scripts\activate on Windows
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver
+python manage.py runserver`
 
 Visit: http://localhost:8000
 
 You can also create a superuser for admin access:
 ``bash
-python manage.py createsuperuser
+`python manage.py createsuperuser`
 
-📦 Frontend Setup (React + Vite)
+## 🌐 Frontend Setup (React + Vite)
 ``bash
-cd frontend
+`cd frontend
 npm install
-npm run dev
+npm run dev`
 
 Visit: http://localhost:5173
 
-🔐 Authentication (Optional)
+## 🔐 Authentication (Optional)
 If JWT login is enabled:
 
 /api/token/ for login
@@ -68,7 +99,7 @@ If JWT login is enabled:
 
 Admin users can log in via Django Admin: http://localhost:8000/admin/
 
-🛠️ Features
+## 🛠️ Features
 Submit suggestions anonymously or with name
 
 Choose from customizable categories (bug fix, performance, etc.)
@@ -89,7 +120,3 @@ Django Admin dashboard for review, status updates, and filtering
 | API Comm   | Axios                                |
 | Dev Tools  | CORS, Git, GitHub                    |
 | Deployment | Localhost / Optional: Render/Railway |
-
-
-👨‍💻 Maintainer
-Built by Gbure Thomas
