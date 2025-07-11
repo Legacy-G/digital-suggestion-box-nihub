@@ -120,3 +120,9 @@ Django Admin dashboard for review, status updates, and filtering
 | API Comm   | Axios                                |
 | Dev Tools  | CORS, Git, GitHub                    |
 | Deployment | Localhost / Optional: Render/Railway |
+
+## 👥 Contributors
+
+- Gbure Thomas ([Legacy-G](https://github.com/Legacy-G)) — Creator & Backend developer | django
+- Noibis Junior ([Noibisjunior](https://github.com/Noibisjunior)) — Creator & Backend developer | Node.js
+- LabstarMX ([LabstarMX]((https://github.com/LabstarMX)) — Creator & Frontend developer | ReactJs
