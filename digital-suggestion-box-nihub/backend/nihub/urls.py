@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from dsb.views import home_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('', home_view),
+    
     # ✅ Include your app's API routes
     path('api/', include('dsb.urls')),
 

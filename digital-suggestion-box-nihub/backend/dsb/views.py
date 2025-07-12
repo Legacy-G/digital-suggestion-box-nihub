@@ -3,8 +3,12 @@ from rest_framework import viewsets, permissions,filters, generics
 from .models import Suggestion
 from .serializers import SuggestionSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+from django.http import JsonResponse
 
 # DSB (Digital Suggestion Box) views.
+def home_view(request):
+    return JsonResponse({"message": "Digital Suggestion Box API is running."})
+
 class SuggestionViewSet(viewsets.ModelViewSet):
     queryset = Suggestion.objects.all().order_by('-timestamp')
     serializer_class = SuggestionSerializer
