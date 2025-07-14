@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import HText from '../shared/HText';
 import PrimaryText from '../shared/PrimaryText';
-import axios from 'axios';
+import axios from '../services/api';
 import toast from 'react-hot-toast';
 
 const Notification = ({ name }) => {
@@ -51,40 +51,30 @@ const SuggestionBox = () => {
       return;
     }
 
-    if (!anonymous && !name.trim()) {
-      toast.error('Please provide your name if not submitting anonymously.');
-      return;
-    }
-
     const payload = {
-      title: title,
-      description: description,
-      category: category.toLowerCase(),  // ✅ Correct method
-      name: anonymous ? 'Anonymous' : name.trim(),
+      title,
+      description,
+      category,
       is_anonymous: anonymous,
+      user_id: null
     };
 
     try {
-      console.log('Submitting payload:', payload);  // ✅ Debugging line
-
-      await axios.post('http://localhost:8000/api/suggestions/', payload);  // ✅ Correct URL
-
+      await axios.post('/suggestions', payload);
       toast.success('Suggestion submitted successfully!');
       setSubmitted(true);
       setSubmittedName(name);
-
-      // Reset form fields
+      
       setTitle('');
       setDescription('');
       setCategory('');
       setAnonymous(false);
       setName('');
-    } catch (error) {
-      console.error('Submission failed:', error.response?.data || error.message);
-      toast.error('Failed to submit suggestion. Please try again.');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to submit suggestion. Try again.');
     }
   };
-
 
   if (submitted) {
     return <Notification name={submittedName} />;
@@ -104,7 +94,6 @@ const SuggestionBox = () => {
           <PrimaryText>Help us improve NIHUB. Your feedback is invaluable.</PrimaryText>
         </div>
 
-        
         <form
           className="flex flex-col gap-4 bg-white w-full rounded-lg py-11 px-5 shadow-lg"
           onSubmit={handleSubmit}

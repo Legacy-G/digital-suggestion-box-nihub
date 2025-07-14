@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import Logo from "../shared/Logo"
+import { Link } from 'react-router-dom';
+
 // import Menu from '../shared/Menu'
 // import PrimaryBtn from '../shared/PrimaryBtn'
 // import useMediaQuery from '../hooks/useMediaQuery';
@@ -30,17 +32,17 @@ const Navbar = ({ isTopOfPage }) => {
             '>
                 <Logo />
             </div>
-            
-            <div className=' w-fit border// border-black
+            <Link to="/register" className="inline-flex items-center gap-1 text-sm hover:underline">
+                   <div className=' w-fit border// border-black
                             flex justify-between items-center sm:gap-6 gap-3
             '>
-                <a href='http://localhost:8000/admin/' target='_blank' rel='noopener noreferrer' className={btnStyles}>
-                    Admin Login
-                </a>
-                <div className=' w-fit p-3 border border-slate-300 rounded-md   '>
-                    <div className=' w-fit p-3  border border-black rounded-full '></div>
-                </div>
+                <input type='submit' className={btnStyles}
+                        // onClick={handleSubmit} 
+                        value='Admin Dashboard'
+                />
             </div>
+                    </Link>
+           
 
         </nav>
 

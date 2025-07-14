@@ -25,9 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x*)%415jn7%9ii+s@1i_x!(a=nn_ylcdks%x92$w7dq8@@xzny'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# ALLOWED_HOSTS should be set to your domain or IP address in production
+# For local development, you can set it to 'localhost' or '127.0.
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
-ALLOWED_HOSTS = ['.onrender.com', 'localhost']
 
 
 # Application definition
@@ -87,8 +89,16 @@ WSGI_APPLICATION = 'nihub.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'legacy_db',
+        'USER': 'postgres',
+        'PASSWORD': '@Gbure1%',
+        'HOST': 'localhost',
+        'PORT': '5432',  # Default PostgreSQL port
+    }
 }
+
 
 
 # Password validation
@@ -140,11 +150,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # REST Framework settings
 # JWT Authentication settings
 REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny', 
+        'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -152,3 +165,4 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter',
     ),
 }
+
