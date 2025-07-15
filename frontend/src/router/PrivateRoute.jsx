@@ -9,7 +9,12 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get('/auth/check', { withCredentials: true });
+        const token = localStorage.getItem('access_token');
+        const res = await axios.get('/auth/check/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setAuthorized(res.data?.is_admin === true);
       } catch (err) {
         setAuthorized(false);
@@ -21,9 +26,8 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, []);
 
-  if (loading) return <div className="p-4 text-center">Checking access...</div>;
+  if (loading) return <div className="p-4 text-center animate-pulse">Checking access...</div>;
   if (!authorized) return <Navigate to="/login" replace />;
-
   return children;
 };
 

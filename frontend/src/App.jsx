@@ -12,53 +12,77 @@ const Register = lazy(() => import('./pages/register'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const SuggestionDetail = lazy(() => import('./pages/suggestionDetail'));
 
-
 const App = () => {
   const isAboveMediumScreens = useMediaQuery('(min-width: 1060px)');
   const [isTopOfPage, setIsTopOfPage] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  
   useEffect(() => {
+    // 🖱️ Scroll detection
     const handleScroll = () => setIsTopOfPage(window.scrollY === 0);
     window.addEventListener('scroll', handleScroll);
+
+    // 🔐 JWT token injection
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setIsAuthenticated(true);
+    }
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
   return (
     <div className="w-full bg-slate-50">
-        <Suspense fallback={<div className="p-8">Loading...</div>}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Navbar isTopOfPage={isTopOfPage} />
-                  <Home />
-                  <Toaster position="top-right" />
-                </>
-              }
-            />
-            <Route path="/login" element={<><Login setIsAuthenticated={setIsAuthenticated} />
-           <Toaster position="top-right" /></>} />
-            <Route path="/register" element={<><Register />
-           <Toaster position="top-right" /></>} />
-            <Route
-              path="/adminDashboard"
-              element={
-                 <PrivateRoute>
-                  <AdminDashboard />
-                  </PrivateRoute>
-              }
-            />
-            <Route path="/suggestion/:id" element={
-               <PrivateRoute>
-              <SuggestionDetail />
-              </PrivateRoute>} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </Suspense>
+      <Suspense fallback={<div className="p-8">Loading...</div>}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar isTopOfPage={isTopOfPage} />
+                <Home />
+                <Toaster position="top-right" />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Login setIsAuthenticated={setIsAuthenticated} />
+                <Toaster position="top-right" />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Register />
+                <Toaster position="top-right" />
+              </>
+            }
+          />
+          <Route
+            path="/adminDashboard"
+            element={
+              <PrivateRoute>
+                <AdminDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/suggestion/:id"
+            element={
+              <PrivateRoute>
+                <SuggestionDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };

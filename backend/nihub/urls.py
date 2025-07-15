@@ -18,21 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from dsb.views import home_view
+from rest_framework.schemas import get_schema_view
+from rest_framework.renderers import JSONOpenAPIRenderer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('', home_view),
-    
-    # ✅ Include your app's API routes
-    path('api/', include('dsb.urls')),
-
-    # DRF login/logout
+    path('api/dsb/', include('dsb.urls')),
     path('api-auth/', include('rest_framework.urls')),
-
-    # JWT auth
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('openapi/', get_schema_view( title="Digital Suggestion Box API",
+                                     renderer_classes=[JSONOpenAPIRenderer]), 
+                                     name='openapi-schema'),
 ]
+
 # This is the main URL configuration for the nihub project.
 # It includes the admin interface, the API routes for the DSB app, and JWT authentication

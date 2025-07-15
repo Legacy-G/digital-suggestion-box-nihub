@@ -53,11 +53,12 @@ const SuggestionBox = () => {
 
     const payload = {
       title,
-      description,
-      category,
-      is_anonymous: anonymous,
-      user_id: null
+    description,
+    category,
+    is_anonymous: anonymous,
+    name: anonymous ? null : name,
     };
+
 
     try {
       await axios.post('/suggestions', payload);

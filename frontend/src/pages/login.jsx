@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import AuthCard from '../components/AuthCard';
 import axios from '../services/api';
 import toast from 'react-hot-toast';
-import AdminNavbar from '../components/AdminNavbar'
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
+import AdminNavbar from '../components/AdminNavbar';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,53 +18,63 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('/auth/login', formData);
-      toast.success('logged-In successfully!');
-       navigate('/adminDashboard');
+      const response = await axios.post('/token/', formData);
+      const { access, refresh } = response.data;
+
+      // 🔐 Store tokens & set global header
+      localStorage.setItem('access_token', access);
+      localStorage.setItem('refresh_token', refresh);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+
+      toast.success('Logged in successfully!');
+      navigate('/adminDashboard');
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      toast.error('Invalid credentials or login failed.');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      setError(err.response?.data?.detail || 'Login failed');
     }
   };
 
   return (
     <>
-    <AdminNavbar/>
-    <AuthCard title="Admin Login">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+      <AdminNavbar />
+      <AuthCard title="Admin Login">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
             <label className="text-sm">Username</label>
-          <input
-            type="username"
-            name="username"
-            className="w-full border rounded px-3 py-2"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
+            <input
+              type="text"
+              name="username"
+              className="w-full border rounded px-3 py-2"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
-          <label className="text-sm">Password</label>
-          <input
-            type="password"
-            name="password"
-            className="w-full border rounded px-3 py-2"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <Link to="/register" className="inline-flex items-center gap-1 text-sm hover:underline">
-                    <p className="text-x mt-3 text-blue-500">Please Register if you are not an admin .</p>
-                  </Link>
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
-        >
-          Login
-        </button>
-      </form>
-      {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
-    </AuthCard>
+            <label className="text-sm">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="w-full border rounded px-3 py-2"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <Link to="/register" className="inline-flex items-center gap-1 text-sm hover:underline">
+              <p className="text-sm mt-3 text-blue-500">Please register if you're not an admin.</p>
+            </Link>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
+          >
+            Login
+          </button>
+        </form>
+        {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
+      </AuthCard>
     </>
   );
 };

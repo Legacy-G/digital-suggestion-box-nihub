@@ -15,16 +15,17 @@ const Dashboard = () => {
 
 
   const fetchSuggestions = async () => {
-  try {
-    const res = await axios.get('/suggestions/admin/filter', {
-      params: {
-        status,
-        category,
-      },
-    });
-    setSuggestions(res.data);
-    setFiltered(res.data);
-  }  catch (err) {
+    try {
+      const res = await axios.get('/suggestions/', {
+        params: {
+          category,
+          status,
+          search: searchTerm
+        },
+      });
+      setSuggestions(res.data);
+      setFiltered(res.data); // Optional: remove if backend filters accurately
+    } catch (err) {
       console.error('Error fetching suggestions:', err);
     }
   };
@@ -34,11 +35,9 @@ const Dashboard = () => {
   }, [status, category]);
 
   useEffect(() => {
-    const filtered = suggestions.filter((s) =>
-      s.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFiltered(filtered);
-  }, [searchTerm, suggestions]);
+    fetchSuggestions(); // Now includes searchTerm directly
+  }, [status, category, searchTerm]);
+
 
   return (
     <div>

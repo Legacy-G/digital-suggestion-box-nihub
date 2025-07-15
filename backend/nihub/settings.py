@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import dj_database_url
 import os
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,8 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x*)%415jn7%9ii+s@1i_x!(a=nn_ylcdks%x92$w7dq8@@xzny'
+
+load_dotenv()
+
+SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-insecure-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
@@ -166,3 +170,21 @@ REST_FRAMEWORK = {
     ),
 }
 
+import sys
+
+# 🧪 Override database for testing
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'legacy_db',
+            'USER': 'postgres',
+            'PASSWORD': '@Gbure1%',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    ]
+    EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
