@@ -29,7 +29,7 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-insecure-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True #os.environ.get('DEBUG', 'False') == 'True'
 # ALLOWED_HOSTS should be set to your domain or IP address in production
 # For local development, you can set it to 'localhost' or '127.0.
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
@@ -46,14 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders', # Add this line for CORS support
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # Add this line for CORS middleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -65,9 +65,11 @@ MIDDLEWARE = [
 ]
 
 # CORS settings
+#CORS_ALLOW_ALL_ORIGINS = False  # Allow all origins for development
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',  # React app running on localhost
 ]
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with CORS requests
 
 ROOT_URLCONF = 'nihub.urls'
 

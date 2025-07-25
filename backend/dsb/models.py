@@ -15,9 +15,10 @@ class Suggestion(models.Model):
 
     class Status(models.TextChoices):
         PENDING = 'pending', 'Pending'
-        REVIEWED = 'reviewed', 'Reviewed'
-        ACCEPTED = 'accepted', 'Accepted'
+        IN_PROGRESS = 'inprogress', 'In Progress'
+        COMPLETED = 'completed', 'Completed'
         REJECTED = 'rejected', 'Rejected'
+
 
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -27,6 +28,7 @@ class Suggestion(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     is_anonymous = models.BooleanField(default=False)
+    admin_comment = models.TextField(blank=True, null=True)  # ✅ Moved into the class
 
     def __str__(self):
         return f"{self.title} ({self.get_category_display()})"

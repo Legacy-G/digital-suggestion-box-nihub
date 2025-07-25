@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from '../services/api';
 import Navbar from '../components/AdminNavbar';
-import toast from 'react-hot-toast';
-
 
 const SuggestionDetail = () => {
   const { id } = useParams();
@@ -12,15 +10,12 @@ const SuggestionDetail = () => {
   const [status, setStatus] = useState('');
   const [comment, setComment] = useState('');
   const [adminComment, setAdminComment] = useState('');
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem('token');
 
   const fetchSuggestion = async () => {
     try {
-      const res = await axios.get(`/suggestions/${id}/`);
-      setSuggestion(res.data);
-      setStatus(res.data.status);
-      setAdminComment(res.data.admin_comment || '');
-
+      const res = await axios.get('/dsb/suggestions');
+      const single = res.data.find((s) => s.id === parseInt(id));
       if (!single) return navigate('/dashboard');
 
       setSuggestion(single);
@@ -31,24 +26,15 @@ const SuggestionDetail = () => {
     }
   };
 
-
   const handleStatusUpdate = async () => {
     try {
-      const token = localStorage.getItem('access_token');
-      const res = await axios.put(
-        `/suggestions/${id}/status`,
+      await axios.put(
+        `/dsb/suggestions/${id}/status`,
         { status, admin_comment: adminComment },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      toast.success(res.data?.message || 'Status updated!');
-      fetchSuggestion(); // Refresh data if needed
+      fetchSuggestion();
     } catch (err) {
-      toast.error('Failed to update status.');
       console.error(err);
     }
   };

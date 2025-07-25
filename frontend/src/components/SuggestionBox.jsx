@@ -53,15 +53,14 @@ const SuggestionBox = () => {
 
     const payload = {
       title,
-    description,
-    category,
-    is_anonymous: anonymous,
-    name: anonymous ? null : name,
+      description,
+      category,
+      is_anonymous: anonymous,
+      name: anonymous ? null : name,
     };
 
-
     try {
-      await axios.post('/suggestions', payload);
+      await axios.post('/dsb/suggestions', payload);
       toast.success('Suggestion submitted successfully!');
       setSubmitted(true);
       setSubmittedName(name);
